@@ -64,6 +64,12 @@ public class AuthController {
 
         return ResponseEntity.ok("User registered successfully");
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> getCurrentUser(Authentication authentication) {
+        User user = userService.findByUsername(authentication.getName());
+        return ResponseEntity.ok(user);
+    }
 }
 
 @Data

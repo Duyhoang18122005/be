@@ -81,6 +81,16 @@ public class GamePlayerServiceImpl implements GamePlayerService {
         if (gamePlayer == null) {
             throw new IllegalArgumentException("Game player cannot be null");
         }
+        if (gamePlayer.getUser() == null) {
+            throw new IllegalArgumentException("User cannot be null");
+        }
+        
+        // Check if user already has a GamePlayer account
+        GamePlayer existingPlayer = gamePlayerRepository.findByUser_Id(gamePlayer.getUser().getId());
+        if (existingPlayer != null) {
+            throw new RuntimeException("User already has a GamePlayer account");
+        }
+        
         return gamePlayerRepository.save(gamePlayer);
     }
 

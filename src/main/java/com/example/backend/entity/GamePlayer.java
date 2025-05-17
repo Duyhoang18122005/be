@@ -61,6 +61,10 @@ public class GamePlayer {
     @JoinColumn(name = "hired_by")
     private User hiredBy;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     private LocalDate hireDate;
     private LocalDate returnDate;
 

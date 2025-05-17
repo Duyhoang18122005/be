@@ -85,13 +85,23 @@ public class GamePlayerController {
 
     @Operation(summary = "Create new game player")
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<GamePlayer> createGamePlayer(
-            @Valid @RequestBody GamePlayerRequest request) {
+            @Valid @RequestBody GamePlayerRequest request,
+            Authentication authentication) {
         GamePlayer gamePlayer = new GamePlayer();
         updateGamePlayerFromRequest(gamePlayer, request);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(gamePlayerService.save(gamePlayer));
+        
+        // Set the user from authentication
+        User user = userService.findByUsername(authentication.getName());
+        gamePlayer.setUser(user);
+        
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(gamePlayerService.save(gamePlayer));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @Operation(summary = "Update game player")

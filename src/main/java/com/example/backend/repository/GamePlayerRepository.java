@@ -12,4 +12,5 @@ public interface GamePlayerRepository extends JpaRepository<GamePlayer, Long> {
     List<GamePlayer> findByRoleAndStatus(String role, String status);
     List<GamePlayer> findByServerAndStatus(String server, String status);
     List<GamePlayer> findByGameNameAndRankAndStatus(String gameName, String rank, String status);
+    GamePlayer findByUser_Id(Long userId);
 } 

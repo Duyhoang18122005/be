@@ -8,4 +8,5 @@ public interface UserService extends UserDetailsService {
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);
     User findByUsername(String username);
+    User findById(Long id);
 } 
